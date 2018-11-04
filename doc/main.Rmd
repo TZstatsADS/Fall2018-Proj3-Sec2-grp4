@@ -8,7 +8,7 @@ In your final repo, there should be an R markdown file that organizes **all comp
 
 This file is currently a template for running evaluation experiments of image analysis (or any predictive modeling). You should update it according to your codes but following precisely the same structure. 
 
-```{r}
+```{r,warning=FALSE}
 if(!require("EBImage")){
   source("https://bioconductor.org/biocLite.R")
   biocLite("EBImage")
@@ -29,7 +29,7 @@ Set the working directory to the image folder. Specify the training and the test
 
 ```{r wkdir, eval=FALSE}
 set.seed(2018)
-setwd("./ads_fall2018_proj3") 
+setwd("C:/Users/User/Desktop/Fall2018-Proj3-Sec2-grp4/doc") 
 # here replace it with your own path or manually set it in RStudio to where this rmd file is located. 
 # use relative path for reproducibility
 ```
@@ -93,8 +93,9 @@ if(run.feature.train){
   label_train <- dat_train$label
 }
 
-#save(dat_train, file="./output/feature_train.RData")
+save(dat_train, file="../output/feature_train.RData")
 ```
+
 
 
 ### Step 4: Train a classification model with training images
@@ -183,8 +184,7 @@ if(run.test){
 Prediction performance matters, so does the running times for constructing features and for training the model, especially when the computation resource is limited. 
 ```{r running_time}
 cat("Time for constructing training features=", tm_feature_train[1], "s \n")
-cat("Time for constructing testing features=", tm_feature_test[1], "s \n")
+#cat("Time for constructing testing features=", tm_feature_test[1], "s \n")
 cat("Time for training model=", tm_train[1], "s \n")
 cat("Time for super-resolution=", tm_test[1], "s \n")
 ```
-

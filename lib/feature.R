@@ -15,7 +15,7 @@ feature <- function(LR_dir, HR_dir, n_points=1000){
   
   ### load libraries
   library("EBImage")
-  n_files <- length(list.files(LR_dir))
+  n_files <- 1 #length(list.files(LR_dir))
   
   ### store feature and responses
   featMat <- array(NA, c(n_files * n_points, 8, 3))
@@ -39,6 +39,7 @@ feature <- function(LR_dir, HR_dir, n_points=1000){
     for(j in 1:3){
         pad=cbind(0,imgLR[,,j],0)
         pad=rbind(0,pad,0)
+        #center=pad[cbind(select_row+1,select_col+1)]
         featMat[(i-1)*n_points+1:n_points,1,j]=pad[cbind(select_row,select_col)]
         featMat[(i-1)*n_points+1:n_points,2,j]=pad[cbind(select_row,select_col+1)]
         featMat[(i-1)*n_points+1:n_points,3,j]=pad[cbind(select_row,select_col+2)]
