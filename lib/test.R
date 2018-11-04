@@ -26,7 +26,8 @@ test <- function(modelList, dat_test){
     c2 <- (i-c1) %/% 4 + 1
     featMat <- dat_test[, , c2]
     ### make predictions
-    predArr[, c1, c2] <- predict(fit_train$fit, newdata=featMat, n.trees=fit_train$iter, type="response")
+    predArr[, c1, c2] <- predict(fit_train$fit, newdata=featMat, 
+                    n.trees=fit_train$iter, type="response")
   }
   return(predArr)
 }

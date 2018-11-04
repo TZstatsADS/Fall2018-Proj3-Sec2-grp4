@@ -15,8 +15,8 @@ feature <- function(LR_dir, HR_dir, n_points=1000){
   
   ### load libraries
   library("EBImage")
-  n_files <- 1 #length(list.files(LR_dir))
-  
+  n_files <- length(list.files(LR_dir))
+  n_files=100
   ### store feature and responses
   featMat <- array(NA, c(n_files * n_points, 8, 3))
   labMat <- array(NA, c(n_files * n_points, 4, 3))
