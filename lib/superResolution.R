@@ -36,15 +36,15 @@ superResolution <- function(LR_dir, HR_dir, modelList){
     for (j in 1:3){
       pad=cbind(0,imgLR[,,j],0)
       pad=rbind(0,pad,0)
-      center=pad[cbind(select_row+1,select_col+1)]
-      featMat[,1,j]=pad[cbind(select_row,select_col)] - center
-      featMat[,2,j]=pad[cbind(select_row,select_col+1)]- center
-      featMat[,3,j]=pad[cbind(select_row,select_col+2)]- center
-      featMat[,4,j]=pad[cbind(select_row+1,select_col+2)]- center
-      featMat[,5,j]=pad[cbind(select_row+2,select_col+2)]- center
-      featMat[,6,j]=pad[cbind(select_row+2,select_col+1)]- center
-      featMat[,7,j]=pad[cbind(select_row+2,select_col)]- center
-      featMat[,8,j]=pad[cbind(select_row+1,select_col)]- center
+      #center=pad[cbind(select_row+1,select_col+1)]
+      featMat[,1,j]=pad[cbind(select_row,select_col)] 
+      featMat[,2,j]=pad[cbind(select_row,select_col+1)]
+      featMat[,3,j]=pad[cbind(select_row,select_col+2)]
+      featMat[,4,j]=pad[cbind(select_row+1,select_col+2)]
+      featMat[,5,j]=pad[cbind(select_row+2,select_col+2)]
+      featMat[,6,j]=pad[cbind(select_row+2,select_col+1)]
+      featMat[,7,j]=pad[cbind(select_row+2,select_col)]
+      featMat[,8,j]=pad[cbind(select_row+1,select_col)]
     }
     
     ### step 2. apply the modelList over featMat
