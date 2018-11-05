@@ -17,8 +17,9 @@ feature <- function(LR_dir, HR_dir, n_points=1000){
   library("EBImage")
   n_files <- length(list.files(LR_dir))
   n_files=1500
-
+  
   ### read LR/HR image pairs
+  library(abind)
   all_feature=foreach(i = 1:n_files,.export = c("readImage","abind"))%dopar%{
     ### store feature and responses
     
