@@ -29,3 +29,20 @@ proj/
 ```
 
 Please see each subfolder for a README file.
+
+
+## Running Time Calculation
+In R
+```
+> tm0=proc.time()
+> dat_train <- feature(train_LR_dir, train_HR_dir)
+> tm_feature_train=proc.time()-tm0
+> print(tm_feature_train)
+```
+display
+```
+   user  system elapsed 
+  12.68   10.70   78.61 
+```
+
+So we use elapsed time as our running time.
