@@ -15,14 +15,13 @@ This file is currently a template for running evaluation experiments of image an
 if(!require("EBImage")){
   source("https://bioconductor.org/biocLite.R")
   biocLite("EBImage")
+  library("EBImage")
 }
 
 if(!require("gbm")){
   install.packages("gbm")
+  library("gbm")
 }
-
-library("EBImage")
-library("gbm")
 ```
 
 ### Parallel Computing Setup
@@ -120,19 +119,18 @@ if(run.parallel)
 ```{r feature}
 tm_feature_train <- NA
 if(run.feature.train){
-  
   tm0=proc.time()
   dat_train <- feature(train_LR_dir, train_HR_dir)
   tm_feature_train=proc.time()-tm0
   
-  feat_train <- dat_train$feature
-  label_train <- dat_train$label
   save(dat_train, file="../output/feature_train.RData")
   rm(dat_train)
 }else{
   load("../output/feature_train.RData")
 }
 
+feat_train <- dat_train$feature
+label_train <- dat_train$label
 ```
 
 
@@ -170,6 +168,9 @@ if(run.cv){
     err_cv[k,] <- cv.function(feat_train, label_train, model_values[k], K)
   }
   save(err_cv, file="../output/err_cv.RData")
+}
+else{
+  load("../output/err_cv.RData")
 }
 ```
 
