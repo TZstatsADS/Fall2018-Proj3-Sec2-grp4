@@ -128,6 +128,7 @@ if(run.feature.train){
   feat_train <- dat_train$feature
   label_train <- dat_train$label
   save(dat_train, file="../output/feature_train.RData")
+  rm(dat_train)
 }else{
   load("../output/feature_train.RData")
 }
@@ -147,7 +148,9 @@ Call the train model and test model from library.
   + Input: an R object that contains a trained classifier.
   + Output: an R object of response predictions on the test set. If there are multiple classifiers under evaluation, there should be multiple sets of label predictions. 
 ```{r loadlib}
-source("../lib/train.R")
+if(run.parallel)
+  source("../lib/train_parallel.R") else
+    source("../lib/train.R")
 source("../lib/test.R")
 ```
 
@@ -195,7 +198,9 @@ par_best <- list(depth=model_best)
 ```{r final_train}
 tm_train=NA
 if(run.train){
-  tm_train <- system.time(fit_train <- train(feat_train, label_train, par_best))
+  tm0=proc.time()
+  fit_train <- train(feat_train, label_train, par_best)
+  tm_train=proc.time()-tm0
   save(err_cv, file="../output/fit_train.RData")
 }
 ```
