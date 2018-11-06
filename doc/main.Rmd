@@ -27,6 +27,7 @@ library("gbm")
 
 ### Parallel Computing Setup
 ```{r ParallelSetup}
+library(doParallel)
 # Real physical cores in the computer
 cores <- detectCores()
 
@@ -34,7 +35,6 @@ if(cores>1){
   run.parallel=TRUE
   # foreach
   library(foreach)
-  library(doParallel)
   cl <- makeCluster(cores)
   registerDoParallel(cl, cores=cores)
 }else
@@ -105,11 +105,19 @@ extra_label <- read.csv(train_label_path, colClasses=c("NULL", NA, NA))
   + Input: a path for high-resolution images.
   + Output: an RData file that contains extracted features and corresponding responses
 
-```{r feature}
+I do recommend using non-parallel version here, as extract feature is a data-intensive --- not computation intensive step. Thus, parallel computing won't significantly save time --- even increase running time, for the parallel computing will raise additional coordination cost, depends on different hardwares: 
+
+| Running Time | HPC | Pixelbook | old labtop |
+|--------------|:---:|:---------:|:----------:|
+|   Parallel   | 19  | 55        | 80         |
+| Non-Parallel | 51  | 33        | 90         |
+
+```{r featuresource}
 if(run.parallel)
   source("../lib/feature_parallel.R") else
     source("../lib/feature.R")
-
+```
+```{r feature}
 tm_feature_train <- NA
 if(run.feature.train){
   
@@ -120,8 +128,9 @@ if(run.feature.train){
   feat_train <- dat_train$feature
   label_train <- dat_train$label
   save(dat_train, file="../output/feature_train.RData")
-}else
+}else{
   load("../output/feature_train.RData")
+}
 
 ```
 
@@ -171,7 +180,7 @@ if(run.cv){
 ```
 
 
-* Choose the "best"" parameter value
+* Choose the "best" parameter value
 ```{r best_model}
 model_best=model_values[1]
 if(run.cv){
