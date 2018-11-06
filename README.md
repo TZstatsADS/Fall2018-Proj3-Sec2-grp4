@@ -30,6 +30,13 @@ proj/
 
 Please see each subfolder for a README file.
 
+## Running on High Performance Computing (Columbia Habanero)
+After copy this project into HPC, `cd doc`  
+In doc/   
+```
+sbatch knitrR.submit
+```
+See whether this submitted work is running, `squeue -u your_uni`.  
 
 ## Running Time Calculation
 In R

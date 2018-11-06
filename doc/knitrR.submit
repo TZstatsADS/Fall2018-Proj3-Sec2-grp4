@@ -1,0 +1,12 @@
+#!/bin/sh
+
+#SBATCH --account=edu
+#SBATCH --job-name=ADSknitrR
+#SBATCH -N 1
+#SBATCH -c 24
+#SBATCH --time=30:00:00
+#--mem-per-cpu=4gb
+
+date
+time Rscript knitr.R
+date
