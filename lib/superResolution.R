@@ -69,10 +69,10 @@ superResolution <- function(LR_dir, HR_dir, modelList){
         
         vec_odd<-numeric(2*m*n)
         vec_odd[c(2*index-1)]<-as.vector(predMat[,1,k])
-        vec_odd[2*index]<-as.vector(predMat[,2,k])
+        vec_odd[2*index]<-as.vector(predMat[,4,k])
         vec_even<-numeric(2*m*n)
-        vec_even[c(2*index-1)]<-as.vector(predMat[,3,k])
-        vec_even[2*index]<-as.vector(predMat[,4,k])
+        vec_even[c(2*index-1)]<-as.vector(predMat[,2,k])
+        vec_even[2*index]<-as.vector(predMat[,3,k])
         mat_odd<-matrix(vec_odd,nrow = 2*n,ncol = m)
         mat_even<-matrix(vec_even,nrow = 2*n,ncol = m)
         
