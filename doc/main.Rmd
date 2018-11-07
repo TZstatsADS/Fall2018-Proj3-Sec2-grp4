@@ -124,13 +124,13 @@ if(run.feature.train){
   tm_feature_train=proc.time()-tm0
   
   save(dat_train, file="../output/feature_train.RData")
-  rm(dat_train)
 }else{
   load("../output/feature_train.RData")
 }
 
 feat_train <- dat_train$feature
 label_train <- dat_train$label
+rm(dat_train)
 ```
 
 
