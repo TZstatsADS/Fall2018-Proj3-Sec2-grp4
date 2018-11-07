@@ -267,10 +267,12 @@ cat("Time for super-resolution=", tm_test[3], "s \n")
 
 ### Summarize Accuracy
 ```{r accuracy}
+train_dir <- "../data/train_set/HR/"
+test_dir <- "../data/test_set/HR/"
 source("../lib/mse_psnr.R")
-mp=msepsnr()
+mp=msepsnr(train_dir, test_dir)
 cat("MSE is", mp[1])
-cat("PSNR is", mp[2])
+cat(" PSNR is", mp[2])
 ```
 
 ### Stop Parallel Computing 
@@ -281,3 +283,12 @@ if(run.parallel & .Platform$OS.type=="windows"){
 }
 ```
 
+```{r}
+source("../lib/mse_psnr.R")
+train_dir <- "../data/train_set/HR/"
+  test_dir <- "../data/test_set/HR/"
+  
+msepsnr(train_dir, test_dir)
+
+
+```

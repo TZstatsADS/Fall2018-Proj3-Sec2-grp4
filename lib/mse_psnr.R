@@ -2,14 +2,14 @@
 ### Calculate mse and psnr ###
 ######################################################
 
-msepsnr <- function(){
+msepsnr <- function(train_dir, test_dir){
   library("EBImage")
   
   MSE=0
   PSNR=0
   
-  train_dir <- "../data/train_set/HR/"
-  test_dir <- "../data/test_set/HR/"
+      train_dir <- "../data/train_set/HR/"
+      test_dir <- "../data/test_set/HR/"
   
   n_files=length(list.files(test_dir))
   for(i in 1:n_files){
