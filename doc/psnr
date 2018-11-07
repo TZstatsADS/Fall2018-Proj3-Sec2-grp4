@@ -1,0 +1,7 @@
+### Summarize Accuracy
+```{r accuracy}
+source("../lib/mse_psnr.R")
+mp=msepsnr()
+cat("MSE is", mp[1])
+cat("PSNR is", mp[2])
+```

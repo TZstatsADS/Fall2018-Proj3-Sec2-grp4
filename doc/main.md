@@ -11,17 +11,35 @@ In your final repo, there should be an R markdown file that organizes **all comp
 
 This file is currently a template for running evaluation experiments of image analysis (or any predictive modeling). You should update it according to your codes but following precisely the same structure. 
 
-```{r,warning=FALSE}
+
+```r
 if(!require("EBImage")){
   source("https://bioconductor.org/biocLite.R")
   biocLite("EBImage")
   library("EBImage")
 }
+```
 
+```
+## Loading required package: EBImage
+```
+
+```r
 if(!require("gbm")){
   install.packages("gbm")
   library("gbm")
 }
+```
+
+```
+## Loading required package: gbm
+```
+
+```
+## Loaded gbm 2.1.4
+```
+
+```r
 # if(!require("png")){
 #   install.packages("png")
 #   library("png")
@@ -29,14 +47,31 @@ if(!require("gbm")){
 ```
 
 ### Parallel Computing Setup
-```{r ParallelSetup}
+
+```r
 if(!require("doParallel")){
   install.packages("doParallel")
   library("doParallel")
 }
+```
 
+```
+## Loading required package: doParallel
+```
 
+```
+## Loading required package: foreach
+```
 
+```
+## Loading required package: iterators
+```
+
+```
+## Loading required package: parallel
+```
+
+```r
 # Real physical cores in the computer
 cores <- detectCores()
 
@@ -60,13 +95,18 @@ if(cores>1){
   run.parallel=FALSE
 ```
 
+```
+## Loading required package: doMC
+```
+
 
 
 ### Step 0: specify directories.
 
 Set the working directory to the image folder. Specify the training and the testing set. For data without an independent test/validation set, you need to create your own testing data by random subsampling. In order to obain reproducible results, set.seed() whenever randomization is used. 
 
-```{r wkdir}
+
+```r
 set.seed(2018)
 # setwd("./ads_fall2018_proj3") 
 # here replace it with your own path or manually set it in RStudio to where this rmd file is located. 
@@ -74,7 +114,8 @@ set.seed(2018)
 ```
 
 Provide directories for training images. Low-resolution (LR) image set and High-resolution (HR) image set will be in different subfolders. 
-```{r}
+
+```r
 train_dir <- "../data/train_set/" # This will be modified for different data sets.
 train_LR_dir <- paste(train_dir, "LR/", sep="")
 train_HR_dir <- paste(train_dir, "HR/", sep="")
@@ -91,7 +132,8 @@ In this chunk, we have a set of controls for the evaluation experiments.
 + (T/F) run evaluation on an independent test set
 + (T/F) process features for test set
 
-```{r exp_setup}
+
+```r
 run.cv=TRUE # run cross-validation on the training set
 K <- 5  # number of CV folds
 run.train=TRUE # New switch, whether run training.
@@ -103,7 +145,8 @@ run.feature.test=TRUE # process features for test set
 
 Using cross-validation or independent test set evaluation, we compare the performance of models with different specifications. In this example, we use GBM with different `depth`. In the following chunk, we list, in a vector, setups (in this case, `depth`) corresponding to models that we will compare. In your project, you might compare very different classifiers. You can assign them numerical IDs and labels specific to your project. 
 
-```{r model_setup}
+
+```r
 model_values <- seq(1, 11, 2)
 model_labels = paste("GBM with depth =", model_values)
 ```
@@ -112,7 +155,8 @@ model_labels = paste("GBM with depth =", model_values)
 
 We provide extra information of image label: car (0), flower (1), market (2). These labels are not necessary for your model.
 
-```{r train_label}
+
+```r
 extra_label <- read.csv(train_label_path, colClasses=c("NULL", NA, NA))
 ```
 
@@ -131,12 +175,14 @@ I do recommend using non-parallel version here, as extract feature is a data-int
 |   Parallel   | 19  | 55        | 80         |
 | Non-Parallel | 51  | 33        | 90         |
 
-```{r featuresource}
+
+```r
 if(run.parallel)
   source("../lib/feature_parallel.R") else
     source("../lib/feature.R")
 ```
-```{r feature}
+
+```r
 tm_feature_train <- NA
 if(run.feature.train){
   tm0=proc.time()
@@ -147,7 +193,20 @@ if(run.feature.train){
 }else{
   load("../output/feature_train.RData")
 }
+```
 
+```
+## 
+## Attaching package: 'abind'
+```
+
+```
+## The following object is masked from 'package:EBImage':
+## 
+##     abind
+```
+
+```r
 feat_train <- dat_train$feature
 label_train <- dat_train$label
 rm(dat_train)
@@ -166,7 +225,8 @@ Call the train model and test model from library.
   + Input: a path that points to the test set features.
   + Input: an R object that contains a trained classifier.
   + Output: an R object of response predictions on the test set. If there are multiple classifiers under evaluation, there should be multiple sets of label predictions. 
-```{r loadlib}
+
+```r
 if(run.parallel)
   source("../lib/train_parallel.R") else
     source("../lib/train.R")
@@ -179,7 +239,8 @@ if(run.parallel)
 
 #### Model selection with cross-validation
 * Do model selection by choosing among different values of training model parameters, that is, the interaction depth for GBM in this example. 
-```{r runcv, message=FALSE, warning=FALSE}
+
+```r
 source("../lib/cross_validation.R")
 
 if(run.cv){
@@ -193,36 +254,63 @@ if(run.cv){
 }else{
   load("../output/err_cv.RData")
 }
+```
+
+```
+## k= 1 
+## k= 2 
+## k= 3 
+## k= 4 
+## k= 5 
+## k= 6
+```
+
+```r
 tmp=gc() # release memory
 ```
 
 Visualize cross-validation results. 
-```{r cv_vis}
+
+```r
 # if(run.cv){
   # load("../output/err_cv.RData")
   plot(model_values, err_cv[,1], xlab="Interaction Depth", ylab="CV Error",
-       main="Cross Validation Error", type="n", ylim=c(0, 0.005))
+       main="Cross Validation Error", type="n", ylim=c(0.003, 0.006))
   points(model_values, err_cv[,1], col="blue", pch=16)
   lines(model_values, err_cv[,1], col="blue")
   arrows(model_values, err_cv[,1]-err_cv[,2], model_values, err_cv[,1]+err_cv[,2], 
         length=0.1, angle=90, code=3)
+```
+
+![plot of chunk cv_vis](figure/cv_vis-1.png)
+
+```r
 # }
 ```
 
 
 * Choose the "best" parameter value
-```{r best_model}
+
+```r
 model_best=model_values[1]
 # if(run.cv){
   model_best <- model_values[which.min(err_cv[,1])]
   cat("The min cv is",min(err_cv[,1]),"for depth",model_best,"\n")
+```
+
+```
+## The min cv is 0.002451539 for depth 11
+```
+
+```r
 # }
 
 par_best <- list(depth=model_best)
 ```
 
 * Train the model with the entire training set using the selected model (model parameter) via cross-validation.
-```{r final_train}
+
+```r
 if(run.train){
   tm0=proc.time()
   fit_train <- train(feat_train, label_train, par_best)
@@ -231,7 +319,6 @@ if(run.train){
 }else{
   load("../output/fit_train.RData")
 }
-tmp=gc() # release memory
 ```
 
 ### Step 5: Super-resolution for test images
@@ -241,7 +328,8 @@ Feed the final training model with the completely holdout testing data.
   + Input: a path that points to the folder (empty) of high-resolution test images.
   + Input: an R object that contains tuned predictors.
   + Output: construct high-resolution versions for each low-resolution test image.
-```{r superresolution}
+
+```r
 if(run.parallel)
   source("../lib/superResolution_parallel.R") else
     source("../lib/superResolution.R")
@@ -258,23 +346,35 @@ if(run.test){
 
 ### Summarize Running Time
 Prediction performance matters, so does the running times for constructing features and for training the model, especially when the computation resource is limited. 
-```{r running_time}
+
+```r
 cat("Time for constructing training features=", tm_feature_train[3], "s \n")
+```
+
+```
+## Time for constructing training features= 27.994 s
+```
+
+```r
 #cat("Time for constructing testing features=", tm_feature_test[3], "s \n")
 cat("Time for training model=", tm_train[3], "s \n")
+```
+
+```
+## Time for training model= 1593.862 s
+```
+
+```r
 cat("Time for super-resolution=", tm_test[3], "s \n")
 ```
 
-### Summarize Accuracy
-```{r accuracy}
-source("../lib/mse_psnr.R")
-mp=msepsnr()
-cat("MSE is", mp[1])
-cat("PSNR is", mp[2])
+```
+## Time for super-resolution= 835.709 s
 ```
 
 ### Stop Parallel Computing 
-```{r stopParallel}
+
+```r
 if(run.parallel & .Platform$OS.type=="windows"){
   stopImplicitCluster()
   stopCluster(cl)
