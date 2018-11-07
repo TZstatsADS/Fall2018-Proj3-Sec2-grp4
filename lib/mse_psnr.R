@@ -5,25 +5,27 @@
 msepsnr <- function(){
   library("EBImage")
   
-  MSE<-NULL
-  PSNR<-NULL
+  MSE=0
+  PSNR=0
   
-  n_files=1500
+  train_dir <- "../data/train_set/HR/"
+  test_dir <- "../data/test_set/HR/"
+  
+  n_files=length(list.files(test_dir))
   for(i in 1:n_files){
     
-    train_dir <- "../data/train_set/HR/"
-    test_dir <- "../data/test_set/HR/"
+
     
-    imgP <- as.array(readImage(paste0(test_dir,  "img_", sprintf("%04d", i), ".jpg")))
-    imgH <- as.array(readImage(paste0(train_dir,  "img_", sprintf("%04d", i), ".jpg")))
+    imgH <- as.array(readImage(paste0(train_dir,  "img_", sprintf("%04d", i), ".jpg"),type="jpeg"))
+    imgP <- as.array(readImage(paste0(test_dir,  "img_", sprintf("%04d", i), ".png"),type="png"))
     
     mse <- mean(abs(imgP-imgH)^2)
     psnr <- 10*log10(1/mse)
     
-    MSE <- c(MSE, mse)
-    PSNR <- c(PSNR, psnr)
+    MSE <- MSE+mse
+    PSNR <- PSNR+psnr
   }
-  mp <- c(mean(MSE),mean(PSNR))
+  mp <- c(MSE/n_files,PSNR/n_files)
   return(mp)
 }
 

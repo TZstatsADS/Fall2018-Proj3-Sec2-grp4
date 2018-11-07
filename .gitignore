@@ -1,2 +1,4 @@
 data/test_set/**/*.jpg
-data/test_set/**/*.png
+/**/.Rhistory
+
+doc/.Rhistory

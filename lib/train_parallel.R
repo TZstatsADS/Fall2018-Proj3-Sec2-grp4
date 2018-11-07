@@ -47,5 +47,12 @@ train <- function(dat_train, label_train, par=NULL){
     list(fit=fit_gbm, iter=best_iter)
   }
   
+  ### restart cluster to release memory
+  if(.Platform$OS.type=="windows"){
+    stopImplicitCluster()
+    stopCluster(cl)
+    cl <- makeCluster(cores)
+    registerDoParallel(cl, cores=cores)
+  }
   return(modelList)
 }

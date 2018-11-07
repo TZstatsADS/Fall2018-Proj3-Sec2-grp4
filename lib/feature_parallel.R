@@ -16,7 +16,7 @@ feature <- function(LR_dir, HR_dir, n_points=1000){
   ### load libraries
   library("EBImage")
   n_files <- length(list.files(LR_dir))
-  n_files=15
+  n_files=1500
   
   ### read LR/HR image pairs
   library(abind)
@@ -61,6 +61,7 @@ feature <- function(LR_dir, HR_dir, n_points=1000){
         labMat[,4,j]=channelHR[cbind(select_row*2,select_col*2-1)]-center
     ### step 3. repeat above for three channels
     }
+    # tmp=gc() # release memory
     abind(featMat,labMat, along=2)
   }
   all_feature=abind(all_feature,along=1)

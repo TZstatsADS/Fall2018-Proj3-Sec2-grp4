@@ -22,24 +22,40 @@ if(!require("gbm")){
   install.packages("gbm")
   library("gbm")
 }
-if(!require("png")){
-  install.packages("png")
-  library("png")
-}
+# if(!require("png")){
+#   install.packages("png")
+#   library("png")
+# }
 ```
 
 ### Parallel Computing Setup
 ```{r ParallelSetup}
-library(doParallel)
+if(!require("doParallel")){
+  install.packages("doParallel")
+  library("doParallel")
+}
+
+
+
 # Real physical cores in the computer
 cores <- detectCores()
 
 if(cores>1){
+  
+  if(.Platform$OS.type=="windows"){
+    cl <- makeCluster(cores)
+    registerDoParallel(cl, cores=cores)
+  }
+  else{
+    if(!require("doMC")){
+      install.packages("doMC")
+      library("doMC")
+    }
+    registerDoMC(cores)
+  }
+  
   run.parallel=TRUE
-  # foreach
-  library(foreach)
-  cl <- makeCluster(cores)
-  registerDoParallel(cl, cores=cores)
+
 }else
   run.parallel=FALSE
 ```
@@ -135,6 +151,7 @@ if(run.feature.train){
 feat_train <- dat_train$feature
 label_train <- dat_train$label
 rm(dat_train)
+tmp=gc() # release memory
 ```
 
 
@@ -175,6 +192,7 @@ if(run.cv){
 }else{
   load("../output/err_cv.RData")
 }
+tmp=gc() # release memory
 ```
 
 Visualize cross-validation results. 
@@ -247,7 +265,7 @@ cat("Time for super-resolution=", tm_test[3], "s \n")
 
 ### Stop Parallel Computing 
 ```{r stopParallel}
-if(run.parallel){
+if(run.parallel & .Platform$OS.type=="windows"){
   stopImplicitCluster()
   stopCluster(cl)
 }
