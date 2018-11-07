@@ -19,7 +19,7 @@ superResolution <- function(LR_dir, HR_dir, modelList){
   ### read LR/HR image pairs
   foreach(i = 1:n_files,.export = c("readImage","Image","Color","writeImage","test")) %dopar% {
     imgLR <- readImage(paste0(LR_dir,  "img", "_", sprintf("%04d", i), ".jpg"))
-    pathHR <- paste0(HR_dir,  "img", "_", sprintf("%04d", i), ".jpg")
+    pathHR <- paste0(HR_dir,  "img", "_", sprintf("%04d", i), ".png")
     n<-dim(imgLR)[1]
     m<-dim(imgLR)[2]
     featMat <- array(NA, c(n*m, 8, 3))
@@ -85,8 +85,7 @@ superResolution <- function(LR_dir, HR_dir, modelList){
     }}
     
     HRimg<-Image(featImg,colormode = Color)
-    writeImage(HRimg, file=pathHR)
-    
+    writeImage(HRimg, file=pathHR,type = "png") # PNG is a lossless compression format
     
   }
 }

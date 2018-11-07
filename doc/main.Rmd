@@ -22,6 +22,10 @@ if(!require("gbm")){
   install.packages("gbm")
   library("gbm")
 }
+if(!require("png")){
+  install.packages("png")
+  library("png")
+}
 ```
 
 ### Parallel Computing Setup
@@ -204,7 +208,7 @@ if(run.train){
   tm0=proc.time()
   fit_train <- train(feat_train, label_train, par_best)
   tm_train=proc.time()-tm0
-  save(err_cv, file="../output/fit_train.RData")
+  save(fit_train, file="../output/fit_train.RData")
 }else{
   load("../output/fit_train.RData")
 }

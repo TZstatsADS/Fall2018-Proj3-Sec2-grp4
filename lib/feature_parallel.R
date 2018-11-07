@@ -16,7 +16,7 @@ feature <- function(LR_dir, HR_dir, n_points=1000){
   ### load libraries
   library("EBImage")
   n_files <- length(list.files(LR_dir))
-  # n_files=1500
+  n_files=15
   
   ### read LR/HR image pairs
   library(abind)
