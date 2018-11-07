@@ -168,33 +168,32 @@ if(run.cv){
     err_cv[k,] <- cv.function(feat_train, label_train, model_values[k], K)
   }
   save(err_cv, file="../output/err_cv.RData")
-}
-else{
+}else{
   load("../output/err_cv.RData")
 }
 ```
 
 Visualize cross-validation results. 
 ```{r cv_vis}
-if(run.cv){
-  load("../output/err_cv.RData")
+# if(run.cv){
+  # load("../output/err_cv.RData")
   plot(model_values, err_cv[,1], xlab="Interaction Depth", ylab="CV Error",
        main="Cross Validation Error", type="n", ylim=c(0.003, 0.006))
   points(model_values, err_cv[,1], col="blue", pch=16)
   lines(model_values, err_cv[,1], col="blue")
   arrows(model_values, err_cv[,1]-err_cv[,2], model_values, err_cv[,1]+err_cv[,2], 
         length=0.1, angle=90, code=3)
-}
+# }
 ```
 
 
 * Choose the "best" parameter value
 ```{r best_model}
 model_best=model_values[1]
-if(run.cv){
+# if(run.cv){
   model_best <- model_values[which.min(err_cv[,1])]
   cat("The min cv is",min(err_cv[,1]),"for depth",model_best,"\n")
-}
+# }
 
 par_best <- list(depth=model_best)
 ```
@@ -206,6 +205,8 @@ if(run.train){
   fit_train <- train(feat_train, label_train, par_best)
   tm_train=proc.time()-tm0
   save(err_cv, file="../output/fit_train.RData")
+}else{
+  load("../output/fit_train.RData")
 }
 ```
 
@@ -225,8 +226,6 @@ test_LR_dir <- paste(test_dir, "LR/", sep="")
 test_HR_dir <- paste(test_dir, "HR/", sep="")
 
 if(run.test){
-  if(!run.train)
-    load(file="../output/fit_train.RData")
   tm0=proc.time()
   superResolution(test_LR_dir, test_HR_dir, fit_train)
   tm_test=proc.time()-tm0
