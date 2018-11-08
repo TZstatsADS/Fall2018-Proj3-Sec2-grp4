@@ -1,4 +1,4 @@
 data/test_set/**/*.jpg
 /**/.Rhistory
-
 doc/.Rhistory
+.DS_Store
