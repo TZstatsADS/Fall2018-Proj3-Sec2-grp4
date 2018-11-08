@@ -23,7 +23,7 @@ Yang Yang -  Complete Feature.R; Tune Hyper-parameter; Write Parallel version fo
 Han Gao - Tune Baseline, conduct MSE-PSNR evaluation, build Nearest Neighbor, Bilinear and Bicubic model, prepared presentation materials. 
 Zuleimy Alcantara - worked on presentation materials, readme file, and report summary. 
 
-Our baseline model
+**Baseline Model**
 
 We ran feature extraction by sampling 1000 points from the LR image pixels and takin the 8 neighboring pixels for each point as features. 
 
@@ -45,8 +45,6 @@ Advantages:
 
 -Extremely faster  training process 
 
-
-
 Controlled parameters: depth={4,5,6,7,8,9,10,11), eta={0.02,0.04,0.06,0.08,0.1}
 
 Largest Depth among 12 classifiers = 11
@@ -54,8 +52,6 @@ Largest Depth among 12 classifiers = 11
 Largest eta among 12 classifiers= 0.08
 
 Training Time: 303s
-
-
 
 Feature Extraction Time 105.349s
 
