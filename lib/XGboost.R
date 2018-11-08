@@ -149,8 +149,7 @@ n_files <- length(list.files(LR_dir))
 c_test <- list()
 pred <- list()
 pred_final <- list()
-time <- rep(NA,n_files)
-for(i in 1:n_files){
+  time <- (system.time(for(i in 1:n_files){
   imgLR <- readImage(paste0(LR_dir,  "img", "_", sprintf("%04d", i), ".jpg"))
   n<-dim(imgLR)[1]
   m<-dim(imgLR)[2]
@@ -165,7 +164,7 @@ for(i in 1:n_files){
   ### step 1. for each pixel and each channel in imgLR:
   ###           save (the neighbor 8 pixels - central pixel) in featMat
   ###           tips: padding zeros for boundary points
-  for (j in 1:3){
+    for (j in 1:3){
     pad=cbind(0,imgLR[,,j],0)
     pad=rbind(0,pad,0)
     center=pad[cbind(select_row+1,select_col+1)]
@@ -214,7 +213,7 @@ for(i in 1:n_files){
   pred_final[[i]] <- featImg
   HRimg<-Image(featImg,colormode = Color)
   writeImage(HRimg, file=pathHR,type="png")
-}
+}))[[1]]
 url2 <- paste(getwd(),"/Fall2018-Proj3-Sec2-grp4/output/pred_matrix.RData",sep="")
 save(pred_final, file=url2)
 
