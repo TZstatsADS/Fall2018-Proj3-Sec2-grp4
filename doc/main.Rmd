@@ -262,7 +262,7 @@ cat("Time for super-resolution=", tm_test[3], "s \n")
 ```{r accuracy}
 train_dir <- "../data/train_set/HR/"
 test_dir <- "../data/test_set/HR/"
-source("../lib/mse_psnr.R")
+source("../lib/Evaluation.R")
 mp=msepsnr(train_dir, test_dir)
 cat("MSE is", mp[1])
 cat(" PSNR is", mp[2])
