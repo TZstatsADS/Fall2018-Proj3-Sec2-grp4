@@ -141,7 +141,7 @@ url1 <- paste(getwd(),"/Fall2018-Proj3-Sec2-grp4/output/xgboost_models.RData",se
 save(models_final,file=url1)
 
 #Super-resolution
-load(url1)
+#load(url1)
 library(EBImage)
 LR_dir <- paste(getwd(),"/Fall2018-Proj3-Sec2-grp4/data/test_set/LR/",sep="")
 HR_dir <- paste(getwd(),"/Fall2018-Proj3-Sec2-grp4/data/test_set/HR/",sep="")
