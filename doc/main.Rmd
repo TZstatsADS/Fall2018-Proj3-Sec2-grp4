@@ -1,10 +1,10 @@
 ---
 title: "Project 3 - Example Main Script"
-author: "Chengliang Tang, Tian Zheng"
+author: "Ken, Han, Jay, Francy, and Zuleimy"
 output:
+  pdf_document: default
   html_document:
     df_print: paged
-# output: html_notebook
 ---
 
 In your final repo, there should be an R markdown file that organizes **all computational steps** for evaluating your proposed image classification framework. 
@@ -22,10 +22,7 @@ if(!require("gbm")){
   install.packages("gbm")
   library("gbm")
 }
-# if(!require("png")){
-#   install.packages("png")
-#   library("png")
-# }
+
 ```
 
 ### Parallel Computing Setup
@@ -34,8 +31,6 @@ if(!require("doParallel")){
   install.packages("doParallel")
   library("doParallel")
 }
-
-
 
 # Real physical cores in the computer
 cores <- detectCores()
@@ -59,8 +54,6 @@ if(cores>1){
 }else
   run.parallel=FALSE
 ```
-
-
 
 ### Step 0: specify directories.
 
@@ -126,7 +119,7 @@ extra_label <- read.csv(train_label_path, colClasses=c("NULL", NA, NA))
 
 I do recommend using non-parallel version here, as extract feature is a data-intensive --- not computation intensive step. Thus, parallel computing won't significantly save time --- even increase running time, for the parallel computing will raise additional coordination cost, depends on different hardwares: 
 
-| Running Time | HPC | Pixelbook | old labtop |
+| Running Time | HPC | Pixelbook | old laptop |
 |--------------|:---:|:---------:|:----------:|
 |   Parallel   | 19  | 55        | 80         |
 | Non-Parallel | 51  | 33        | 90         |
@@ -292,3 +285,15 @@ msepsnr(train_dir, test_dir)
 
 
 ```
+
+Summary:
+
+
+Our baseline model runs cross-validation with 5 folds. 
+   nerest-neighbor method which uses the value of nearby translated pixel values for the output pixel values.
+It is also faster than bilinear interpolation which uses the weighted average of two translated pixel values for each output pixel value.
+  Additionally, it is also faster than bicubic interpolation which uses the weighted average of four translated pixel values for each output pixel value.
+  
+  Our improved model is ... faster
+  Time for constructing training features= 70.589 s 
+  Our baseline models takes 14hrs 
