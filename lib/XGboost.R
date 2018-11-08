@@ -1,3 +1,4 @@
+#setwd("C:/Users/Han/Documents/GitHub")
 load(paste(getwd(),"/Fall2018-Proj3-Sec2-grp4/output/feature_train.RData",sep=""))
 feature <- dat_train$feature
 label <- dat_train$label
@@ -16,6 +17,7 @@ m3 <- cbind(feature3,label3)
 
 
 #Find the best training paramter for XGboost. The controlled parameters are "depth" and "eta"
+#install.packages("xgboost")
 library(xgboost)
 depth.list <- c(4,5,6,7,8,9,10,11)
 eta.list <- c(0.02,0.04,0.06,0.08,0.1)
