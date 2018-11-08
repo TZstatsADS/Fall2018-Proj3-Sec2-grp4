@@ -432,7 +432,7 @@ if(run.cv){
 <pre><code class="r"># if(run.cv){
   # load(&quot;../output/err_cv.RData&quot;)
   plot(model_values, err_cv[,1], xlab=&quot;Interaction Depth&quot;, ylab=&quot;CV Error&quot;,
-       main=&quot;Cross Validation Error&quot;, type=&quot;n&quot;, ylim=c(0.003, 0.006))
+       main=&quot;Cross Validation Error&quot;, type=&quot;n&quot;, ylim=c(0, 0.005))
   points(model_values, err_cv[,1], col=&quot;blue&quot;, pch=16)
   lines(model_values, err_cv[,1], col=&quot;blue&quot;)
   arrows(model_values, err_cv[,1]-err_cv[,2], model_values, err_cv[,1]+err_cv[,2], 
@@ -454,7 +454,7 @@ if(run.cv){
   cat(&quot;The min cv is&quot;,min(err_cv[,1]),&quot;for depth&quot;,model_best,&quot;\n&quot;)
 </code></pre>
 
-<pre><code>## The min cv is 0.002451539 for depth 11
+<pre><code>## The min cv is 0.002458547 for depth 11
 </code></pre>
 
 <pre><code class="r"># }
@@ -474,6 +474,7 @@ par_best &lt;- list(depth=model_best)
 }else{
   load(&quot;../output/fit_train.RData&quot;)
 }
+tmp=gc() # release memory
 </code></pre>
 
 <h3>Step 5: Super-resolution for test images</h3>
@@ -512,20 +513,36 @@ if(run.test){
 <pre><code class="r">cat(&quot;Time for constructing training features=&quot;, tm_feature_train[3], &quot;s \n&quot;)
 </code></pre>
 
-<pre><code>## Time for constructing training features= 27.994 s
+<pre><code>## Time for constructing training features= 28.419 s
 </code></pre>
 
 <pre><code class="r">#cat(&quot;Time for constructing testing features=&quot;, tm_feature_test[3], &quot;s \n&quot;)
 cat(&quot;Time for training model=&quot;, tm_train[3], &quot;s \n&quot;)
 </code></pre>
 
-<pre><code>## Time for training model= 1593.862 s
+<pre><code>## Time for training model= 1500.212 s
 </code></pre>
 
 <pre><code class="r">cat(&quot;Time for super-resolution=&quot;, tm_test[3], &quot;s \n&quot;)
 </code></pre>
 
-<pre><code>## Time for super-resolution= 835.709 s
+<pre><code>## Time for super-resolution= 768.291 s
+</code></pre>
+
+<h3>Summarize Accuracy</h3>
+
+<pre><code class="r">source(&quot;../lib/mse_psnr.R&quot;)
+mp=msepsnr()
+cat(&quot;MSE is&quot;, mp[1])
+</code></pre>
+
+<pre><code>## MSE is 0.002539523
+</code></pre>
+
+<pre><code class="r">cat(&quot;PSNR is&quot;, mp[2])
+</code></pre>
+
+<pre><code>## PSNR is 27.90005
 </code></pre>
 
 <h3>Stop Parallel Computing</h3>

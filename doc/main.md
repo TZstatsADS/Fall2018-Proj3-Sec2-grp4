@@ -275,7 +275,7 @@ Visualize cross-validation results.
 # if(run.cv){
   # load("../output/err_cv.RData")
   plot(model_values, err_cv[,1], xlab="Interaction Depth", ylab="CV Error",
-       main="Cross Validation Error", type="n", ylim=c(0.003, 0.006))
+       main="Cross Validation Error", type="n", ylim=c(0, 0.005))
   points(model_values, err_cv[,1], col="blue", pch=16)
   lines(model_values, err_cv[,1], col="blue")
   arrows(model_values, err_cv[,1]-err_cv[,2], model_values, err_cv[,1]+err_cv[,2], 
@@ -299,7 +299,7 @@ model_best=model_values[1]
 ```
 
 ```
-## The min cv is 0.002451539 for depth 11
+## The min cv is 0.002458547 for depth 11
 ```
 
 ```r
@@ -319,6 +319,7 @@ if(run.train){
 }else{
   load("../output/fit_train.RData")
 }
+tmp=gc() # release memory
 ```
 
 ### Step 5: Super-resolution for test images
@@ -352,7 +353,7 @@ cat("Time for constructing training features=", tm_feature_train[3], "s \n")
 ```
 
 ```
-## Time for constructing training features= 27.994 s
+## Time for constructing training features= 28.419 s
 ```
 
 ```r
@@ -361,7 +362,7 @@ cat("Time for training model=", tm_train[3], "s \n")
 ```
 
 ```
-## Time for training model= 1593.862 s
+## Time for training model= 1500.212 s
 ```
 
 ```r
@@ -369,7 +370,27 @@ cat("Time for super-resolution=", tm_test[3], "s \n")
 ```
 
 ```
-## Time for super-resolution= 835.709 s
+## Time for super-resolution= 768.291 s
+```
+
+### Summarize Accuracy
+
+```r
+source("../lib/mse_psnr.R")
+mp=msepsnr()
+cat("MSE is", mp[1])
+```
+
+```
+## MSE is 0.002539523
+```
+
+```r
+cat("PSNR is", mp[2])
+```
+
+```
+## PSNR is 27.90005
 ```
 
 ### Stop Parallel Computing 
