@@ -23,6 +23,63 @@ Yang Yang - team leader, parallel model, baseline model and model improvement, E
 Han Gao - Tune Baseline, conduct MSE-PSNR evaluation, build Nearest Neighbor, Bilinear and Bicubic model, prepared presentation materials. 
 Zuleimy Alcantara - worked on presentation materials, readme file, and report summary. 
 
+Our baseline model
+
+We ran feature extraction by sampling 1000 points from the LR image pixels and takin the 8 neighboring pixels for each point as features. 
+
+Our Extraction time is 27.994s with an optimal depth of 11. Our cross-validation error is 0.0024515.
+It is faster than the nerest-neighbor method which uses the value of nearby translated pixel values for the output pixel values. There was a resolution time od 109.8 s and a MSE of 0.004035 and PSNR of 25.3926.
+It is also faster than bilinear interpolation which uses the weighted average of two translated pixel values for each output pixel value. The extraction time for bileanear is 121.2 s and the MSE is 0.003277 and the PSNR is 26.3723.
+
+Additionally, it is also faster than bicubic interpolation which uses the weighted average of four translated pixel values for each output pixel value. The extraction time for bileanear is 183.6 s and the MSE is 0.004927 and the PSNR is 24.1553. 
+  
+  
+  
+Our improved models
+
+**XGBooost**-
+
+Advantages: 
+
+-More regularized model formation to control over-fitting 
+
+-Extremely faster  training process 
+
+
+
+Controlled parameters: depth={4,5,6,7,8,9,10,11), eta={0.02,0.04,0.06,0.08,0.1}
+
+Largest Depth among 12 classifiers = 11
+
+Largest eta among 12 classifiers= 0.08
+
+Training Time: 303s
+
+
+
+Feature Extraction Time 105.349s
+
+Superresolution time 5043s
+
+The MSE of this model is 0.004146
+
+The psnr is 25.0000
+
+
+
+**ESPCN**
+
+ESPCN uses  subpixel convolutional neural network layer for upscaling. This layer essentially uses regular convolutional layers followed by a specific type of image reshaping called a phase shift. In other words, instead of putting zeros in between pixels and having to do extra computation, they calculate convolutions in lower resolution and resize the resulting map into an upscaled image in the end. This way, no meaningless zeros are necessary. This makes it faster than SRCNN Network. SRCNN Network does more convolutions in high resolution, as it goes through CNN; this is more costly.
+
+The feature extraction  time for this model was
+
+The training time
+
+Super resolution time
+
+The MSE  is  0.002452
+The psnr is 28.11563
+
 Following [suggestions](http://nicercode.github.io/blog/2013-04-05-projects/) by [RICH FITZJOHN](http://nicercode.github.io/about/#Team) (@richfitz). This folder is orgarnized as follows.
 
 ```
