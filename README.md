@@ -19,7 +19,7 @@ Term: Fall 2018
 
 Jay  Mu - Baseline Super-resolution, Feature, writing images, tune model_values of GBM model.
 Fangqi  Ouyang -Xgboost-implemention and parameter tuning, prepared presentation 
-Yang Yang - team leader, parallel model, baseline model and model improvement, ESPCN model
+Yang Yang -  Complete Feature.R; Tune Hyper-parameter; Write Parallel version for all code; Setup & Run High Performance Computing. Improve by Deep-learning(ESPCN); Co-edit main.Rmd and slides.
 Han Gao - Tune Baseline, conduct MSE-PSNR evaluation, build Nearest Neighbor, Bilinear and Bicubic model, prepared presentation materials. 
 Zuleimy Alcantara - worked on presentation materials, readme file, and report summary. 
 
@@ -71,11 +71,10 @@ The psnr is 25.0000
 
 ESPCN uses  subpixel convolutional neural network layer for upscaling. This layer essentially uses regular convolutional layers followed by a specific type of image reshaping called a phase shift. In other words, instead of putting zeros in between pixels and having to do extra computation, they calculate convolutions in lower resolution and resize the resulting map into an upscaled image in the end. This way, no meaningless zeros are necessary. This makes it faster than SRCNN Network. SRCNN Network does more convolutions in high resolution, as it goes through CNN; this is more costly.
 
-The feature extraction  time for this model was
 
-The training time
-
-Super resolution time
+The training time is (1888s)**
+** using Colab (k80)
+Super resolution time- 3275s.
 
 The MSE  is  0.002452
 The psnr is 28.11563
