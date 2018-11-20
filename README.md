@@ -47,9 +47,9 @@ Advantages:
 
 Controlled parameters: depth={4,5,6,7,8,9,10,11), eta={0.02,0.04,0.06,0.08,0.1}
 
-Largest Depth among 12 classifiers = 11
+Largest Depth among 12 classifiers = 10
 
-Largest eta among 12 classifiers= 0.08
+Largest eta among 12 classifiers= 0.02
 
 Training Time: 303s
 
