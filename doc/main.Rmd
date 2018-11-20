@@ -35,7 +35,7 @@ Set the working directory to the image folder. Specify the training and the test
 
 ```{r wkdir, eval=FALSE}
 set.seed(2018)
-setwd("/Users/fangqiouyang/Fall2018-Proj3-Sec2-grp4") 
+setwd("C:\\Users\\fo2203\\Desktop\\Fall2018-Proj3-Sec2-grp4-francy") 
 # here replace it with your own path or manually set it in RStudio to where this rmd file is located. 
 # use relative path for reproducibility
 ```
@@ -64,6 +64,7 @@ run.cv.xg = TRUE #run cross-validation for XGboost
 K <- 5  # number of CV folds
 run.feature.train=TRUE # process features for training set
 run.test=TRUE # run evaluation on an independent test set
+run.test.xg = TRUE
 run.feature.test=TRUE # process features for test set
 ```
 
@@ -158,15 +159,16 @@ if(run.cv){
 if(run.cv.xg){
   par(mfrow=c(3,4))
   for(i in 1:12){
-    parameter <- par[i]
+    parameter <- par[[i]]
     error <- parameter$error
+    e <- 
     plot(depth.list,error[,1],type="o",col=1,xlab="depth",ylab="error rate",main="Cross Validation Error")
     for(j in 2:length(eta.list)){
-      points(depth.list,error[,j],type="o",col=i)
+      points(depth.list,error[,j],type="o",col=j)
     }
-    legend("topright",fill=1:length(eta.list),legend=paste("eta=",eta.list),cex=0.75)
+    legend("topright",fill=1:length(eta.list),legend=paste("eta=",eta.list),cex=0.25)
   }}
-
+#plots below are the error for 12 classifiers 
 
 ```
 
@@ -187,9 +189,9 @@ if(run.cv.xg){
 * Train the model with the entire training set using the selected model (model parameter) via cross-validation.
 ```{r final_train}
 source("../lib/train_xg.R")
-tm_train=NA
-tm_train <- system.time(fit_train <- train(feat_train, label_train, par_best))
-save(fit_train, file="../output/fit_train.RData")
+#tm_train=NA
+#tm_train <- system.time(fit_train <- train(feat_train, label_train, par_best))
+#save(fit_train, file="../output/fit_train.RData")
 #############################
 #Xgboost train
 result <- train_x(matrix,par_best_list) 
@@ -228,7 +230,7 @@ if(run.test.xg){
 Prediction performance matters, so does the running times for constructing features and for training the model, especially when the computation resource is limited. 
 ```{r running_time}
 cat("Time for constructing training features=", tm_feature_train[1], "s \n")
-cat("Time for constructing testing features=", tm_feature_test[1], "s \n")
+#cat("Time for constructing testing features=", tm_feature_test[1], "s \n")
 cat("Time for training model=", tm_train[1], "s \n")
 cat("Time for super-resolution=", tm_test[1], "s \n")
 cat("Time for training model(xgboost)=", sum(time), "s \n")
