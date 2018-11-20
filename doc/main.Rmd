@@ -19,9 +19,13 @@ if(!require("EBImage")){
 if(!require("gbm")){
   install.packages("gbm")
 }
+if(!require("xgboost")){
+  install.packages("xgboost")
+}
 
 library("EBImage")
 library("gbm")
+library("xgboost")
 ```
 
 
@@ -154,11 +158,11 @@ if(run.cv){
 if(run.cv.xg){
   par(mfrow=c(3,4))
   for(i in 1:12){
-    u <- paste("../output/error",i,"_xg.RData",sep="")
-    load(u)
+    parameter <- par[i]
+    error <- parameter$error
     plot(depth.list,error[,1],type="o",col=1,xlab="depth",ylab="error rate",main="Cross Validation Error")
-    for(i in 2:length(eta.list)){
-      points(depth.list,error[,i],type="o",col=i)
+    for(j in 2:length(eta.list)){
+      points(depth.list,error[,j],type="o",col=i)
     }
     legend("topright",fill=1:length(eta.list),legend=paste("eta=",eta.list),cex=0.75)
   }}
@@ -188,7 +192,7 @@ tm_train <- system.time(fit_train <- train(feat_train, label_train, par_best))
 save(fit_train, file="../output/fit_train.RData")
 #############################
 #Xgboost train
-result <- train_x(matrix,par_best_list) 
+result <- train_xg(matrix,par_best_list) 
 time <- result$train_time
 models_final <- result$models_final
 #url1 <- paste(getwd(),"/Fall2018-Proj3-Sec2-grp4/output/xgboost_models.RData",sep="")
