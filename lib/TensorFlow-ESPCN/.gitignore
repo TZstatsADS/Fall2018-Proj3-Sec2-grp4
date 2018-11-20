@@ -1,0 +1,11 @@
+__pycache__
+.idea
+#checkpoint
+h5data
+*.pyc
+.DS_Store
+result
+debug.ipynb
+.ipynb_checkpoints/debug-checkpoint.ipynb
+*.png
+*.jpg
