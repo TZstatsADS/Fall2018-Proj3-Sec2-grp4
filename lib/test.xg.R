@@ -1,6 +1,6 @@
 
 test.xg <- function(test_LR_dir,test_HR_dir,models_final){
-load(url1)
+#load(url1)
 library(EBImage)
 n_files <- length(list.files(test_LR_dir))
 c_test <- list()
@@ -72,7 +72,7 @@ for(i in 1:n_files){
   HRimg<-Image(featImg,colormode = Color)
   writeImage(HRimg, file=pathHR,type="png")
 }
-url2 <- paste(getwd(),"/Fall2018-Proj3-Sec2-grp4/output/pred_matrix.RData",sep="")
-save(pred_final, file=url2)
+#url2 <- paste(getwd(),"/Fall2018-Proj3-Sec2-grp4/output/pred_matrix.RData",sep="")
+#save(pred_final, file=url2)
 return(time_s)
 }
