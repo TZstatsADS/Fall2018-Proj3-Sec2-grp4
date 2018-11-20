@@ -1,7 +1,7 @@
 cv <- function(train.D){
   #Find the best training paramter for XGboost. The controlled parameters are "depth" and "eta"
   library(xgboost)
-  depth.list <- c(4,5,6,7,8,9)
+  depth.list <- c(4,5,6,7,8,9,10,11)
   eta.list <- c(0.02,0.04,0.06,0.08,0.1)
   
   error<-matrix(NA,nrow = length(depth.list),ncol = length(eta.list))
@@ -31,16 +31,14 @@ cv <- function(train.D){
       train.sd[i,j]<-as.numeric(crossvalid$evaluation_log[crossvalid$best_iteration,3])
       test.sd[i,j]<-as.numeric(crossvalid$evaluation_log[crossvalid$best_iteration,5])
     }
-    u <- paste(getwd(),"/Fall2018-Proj3-Sec2-grp4/output/error",i,"_xg.RData",sep="")
-    save(error,u)
   }
   best.index<-which(error == min(error), arr.ind = TRUE)
   depth.choose<-depth.list[best.index[1,1]]
   eta.choose<-eta.list[best.index[1,2]]
   iteration.choose<-iteration[best.index[1,1],best.index[1,2]]
-  u1 <- paste(getwd(),"/Fall2018/Proj3-Sec2-grp4/output/error_xg.RData",sep="")
-  save(error, file=u1)
-  return(list(depth=depth.choose,eta=eta.choose,iteration=iteration.choose))
+  #u1 <- paste(getwd(),"/Fall2018/Proj3-Sec2-grp4/output/error_xg.RData",sep="")
+  #save(error, file=u1)
+  return(list(depth=depth.choose,eta=eta.choose,iteration=iteration.choose,error=error))
 }
 
 cv_real <- function(feature_train, label_train){

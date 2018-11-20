@@ -8,7 +8,7 @@ pred <- list()
 pred_final <- list()
 time_s <- rep(NA,n_files)
 for(i in 1:n_files){
-  f_time[i]<-system.time(imgLR <- readImage(paste0(test_LR_dir,  "img", "_", sprintf("%04d", i), ".jpg")))
+  imgLR <- readImage(paste0(test_LR_dir,  "img", "_", sprintf("%04d", i), ".jpg"))
   n<-dim(imgLR)[1]
   m<-dim(imgLR)[2]
   featMat <- array(NA, c(n*m, 8, 3))
